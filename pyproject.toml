@@ -75,8 +75,9 @@ typecheck = "mypy src"
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "tests.django_settings"
-pythonpath = ["."]
+pythonpath = [".", "testapp"]
 testpaths = ["tests"]
+addopts = "--no-migrations"
 
 # ---------------------------------------------------------------------------
 # Coverage
@@ -110,6 +111,13 @@ warn_unreachable = true
 module = "django.*"
 ignore_missing_imports = true
 
+[[tool.mypy.overrides]]
+# users.models is NetBox's own internal app (its custom Group/User models,
+# not Django's stock auth ones) -- only resolvable inside a real NetBox
+# installation, so no stubs exist for it standalone.
+module = "users.*"
+ignore_missing_imports = true
+
 # ---------------------------------------------------------------------------
 # Ruff
 # ---------------------------------------------------------------------------
@@ -141,7 +149,8 @@ ignore = [
 convention = "google"
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**" = ["D"] # no docstring requirements in tests
+"tests/**" = ["D"]   # no docstring requirements in tests
+"testapp/**" = ["D"] # test-only stand-in for NetBox's users app, not public API
 
 [tool.ruff.lint.isort]
 known-first-party = ["netbox_oidc_group_sync"]

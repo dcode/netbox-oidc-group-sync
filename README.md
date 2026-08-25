@@ -1,7 +1,7 @@
 # netbox-oidc-group-sync
 
 A [python-social-auth](https://github.com/python-social-auth/social-core) pipeline step that syncs NetBox
-Django groups and `is_superuser`/`is_staff` status from an OIDC `groups` claim.
+Django groups and `is_superuser` status from an OIDC `groups` claim.
 
 ## Why this exists
 
@@ -64,7 +64,7 @@ already set:
 | `REMOTE_AUTH_GROUP_SYNC_ENABLED` | Master on/off switch. `sync_groups` no-ops entirely when falsy. |
 | `REMOTE_AUTH_GROUP_HEADER` | The key to look up in the OIDC claims/userinfo `response` dict for the user's group list. Named for its original HTTP-header use case; repurposed here as a claim key, which doesn't conflict with anything since it has no effect on social-auth logins upstream. |
 | `REMOTE_AUTH_AUTO_CREATE_GROUPS` | Create a Django `Group` for a claimed group name that doesn't exist yet, instead of skipping it with a logged error. |
-| `REMOTE_AUTH_SUPERUSER_GROUPS` | Group names that grant `is_superuser`/`is_staff` when present in the user's synced claim groups. |
+| `REMOTE_AUTH_SUPERUSER_GROUPS` | Group names that grant `is_superuser` when present in the user's synced claim groups. |
 | `REMOTE_AUTH_SUPERUSERS` | Usernames that are always superusers, regardless of group membership. |
 
 Group membership is a **full sync**, not additive: a user's Django groups are set to exactly what the claim

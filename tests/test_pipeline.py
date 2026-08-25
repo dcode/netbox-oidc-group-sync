@@ -1,6 +1,6 @@
 import pytest
-from django.contrib.auth.models import Group, User
 from pytest_django.fixtures import Settings
+from users.models import Group, User
 
 from netbox_oidc_group_sync.pipeline import sync_groups
 
@@ -41,7 +41,6 @@ def test_assigns_existing_groups(user: User) -> None:
     user.refresh_from_db()
     assert [g.name for g in user.groups.all()] == ["netbox-users"]
     assert user.is_superuser is False
-    assert user.is_staff is False
 
 
 @pytest.mark.django_db
@@ -76,7 +75,6 @@ def test_grants_superuser_for_matching_group(settings: Settings, user: User) -> 
 
     user.refresh_from_db()
     assert user.is_superuser is True
-    assert user.is_staff is True
 
 
 @pytest.mark.django_db
@@ -93,7 +91,6 @@ def test_grants_superuser_for_username_allowlist(settings: Settings, user: User)
 @pytest.mark.django_db
 def test_revokes_superuser_when_no_longer_in_group(settings: Settings, user: User) -> None:
     user.is_superuser = True
-    user.is_staff = True
     user.save()
     settings.REMOTE_AUTH_SUPERUSER_GROUPS = ["netbox-admins"]
 
@@ -101,7 +98,6 @@ def test_revokes_superuser_when_no_longer_in_group(settings: Settings, user: Use
 
     user.refresh_from_db()
     assert user.is_superuser is False
-    assert user.is_staff is False
 
 
 @pytest.mark.django_db
