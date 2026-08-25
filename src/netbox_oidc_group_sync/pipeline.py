@@ -71,11 +71,11 @@ def sync_groups(
     superuser_groups = set(getattr(settings, "REMOTE_AUTH_SUPERUSER_GROUPS", []))
     superusers = set(getattr(settings, "REMOTE_AUTH_SUPERUSERS", []))
 
-    remote_groups = response.get(claim_key) or []
+    remote_groups: list[str] | str = response.get(claim_key) or []
     if isinstance(remote_groups, str):
         remote_groups = [remote_groups]
 
-    group_list = []
+    group_list: list[Group] = []
     for name in remote_groups:
         try:
             group_list.append(Group.objects.get(name=name))
