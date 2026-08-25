@@ -4,9 +4,7 @@ dynamic = ["version"]
 description = "A python-social-auth pipeline step that syncs NetBox Django groups and superuser status from an OIDC 'groups' claim"
 readme = "README.md"
 license = "MIT"
-authors = [
-    { name = "Derek Ditch", email = "dcode@users.noreply.github.com" },
-]
+authors = [{ name = "Derek Ditch", email = "dcode@users.noreply.github.com" }]
 keywords = ["netbox", "oidc", "sso", "social-auth", "django", "authentik"]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -20,15 +18,14 @@ classifiers = [
     "Typing :: Typed",
 ]
 requires-python = ">=3.12"
-dependencies = [
-    "django>=4.2",
-    "social-auth-core>=4.5",
-]
+dependencies = ["django>=4.2", "social-auth-core>=4.5"]
 
 [project.urls]
-"Homepage" = "https://github.com/dcode/netbox-oidc-group-sync"
-"Bug Tracker" = "https://github.com/dcode/netbox-oidc-group-sync/issues"
-"Source" = "https://github.com/dcode/netbox-oidc-group-sync"
+Homepage = "https://github.com/dcode/netbox-oidc-group-sync"
+Documentation = "https://dcode.github.io/netbox-oidc-group-sync/"
+Issues = "https://github.com/dcode/netbox-oidc-group-sync/issues"
+Source = "https://github.com/dcode/netbox-oidc-group-sync"
+Changelog = "https://github.com/dcode/netbox-oidc-group-sync/releases"
 
 [project.optional-dependencies]
 dev = [
@@ -93,10 +90,7 @@ omit = ["*/tests/*", "*/__pycache__/*"]
 show_missing = true
 skip_covered = false
 fail_under = 100
-exclude_lines = [
-    "pragma: no cover",
-    "if TYPE_CHECKING:",
-]
+exclude_lines = ["pragma: no cover", "if TYPE_CHECKING:"]
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
@@ -126,28 +120,28 @@ target-version = "py312"
 
 [tool.ruff.lint]
 select = [
-    "D",     # pydocstyle
-    "E",     # pycodestyle errors
-    "W",     # pycodestyle warnings
-    "F",     # pyflakes
-    "I",     # isort
-    "B",     # flake8-bugbear
-    "C4",    # flake8-comprehensions
-    "UP",    # pyupgrade
-    "SIM",   # flake8-simplify
-    "RUF",   # ruff-specific rules
+    "D",   # pydocstyle
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+    "SIM", # flake8-simplify
+    "RUF", # ruff-specific rules
 ]
 ignore = [
-    "E501",  # line-length -- handled by formatter
-    "D105",  # missing docstring in magic method
-    "D107",  # missing docstring in __init__ (documented on class)
+    "E501", # line-length -- handled by formatter
+    "D105", # missing docstring in magic method
+    "D107", # missing docstring in __init__ (documented on class)
 ]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**" = ["D"]  # no docstring requirements in tests
+"tests/**" = ["D"] # no docstring requirements in tests
 
 [tool.ruff.lint.isort]
 known-first-party = ["netbox_oidc_group_sync"]
