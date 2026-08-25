@@ -8,7 +8,7 @@ would set -- so there's nothing new to learn if you've configured NetBox's remot
 | `REMOTE_AUTH_GROUP_SYNC_ENABLED` | `bool` | Master on/off switch. `sync_groups` no-ops entirely when falsy -- no group changes, no superuser changes. |
 | `REMOTE_AUTH_GROUP_HEADER` | `str` | The key to look up in the OIDC claims/userinfo `response` dict for the user's group list. Named for its original HTTP-header use case in `RemoteUserBackend`; repurposed here as a claim key. This doesn't conflict with anything, since the setting has no effect on social-auth logins upstream. |
 | `REMOTE_AUTH_AUTO_CREATE_GROUPS` | `bool` | When `true`, a claimed group name that doesn't exist yet is created. When `false`, it's skipped with a logged error and the user isn't added to it. |
-| `REMOTE_AUTH_SUPERUSER_GROUPS` | `list[str]` | Group names that grant `is_superuser` and `is_staff` when present among the user's synced claim groups. |
+| `REMOTE_AUTH_SUPERUSER_GROUPS` | `list[str]` | Group names that grant `is_superuser` when present among the user's synced claim groups. |
 | `REMOTE_AUTH_SUPERUSERS` | `list[str]` | Usernames that are always superusers, regardless of group membership. |
 
 ## Semantics
@@ -38,5 +38,5 @@ REMOTE_AUTH_SUPERUSER_GROUPS = ["netbox-admins"]
 
 A user in Authentik's `netbox-admins` group logs in, `sync_groups` runs as part of
 [the pipeline](installation.md), NetBox creates a Django `netbox-admins` group if it doesn't already exist,
-adds the user to it, and sets `is_superuser = True` / `is_staff = True`. A user removed from that group in
+adds the user to it, and sets `is_superuser = True`. A user removed from that group in
 Authentik loses superuser status the next time they log in.

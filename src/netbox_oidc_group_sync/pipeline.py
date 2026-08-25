@@ -32,7 +32,13 @@ import logging
 from typing import Any
 
 from django.conf import settings
-from django.contrib.auth.models import Group
+
+# NetBox 4.x doesn't use Django's stock auth.Group at all -- it defines its own
+# users.models.Group (a separate model/table; User.groups points there, not at
+# django.contrib.auth.models.Group). Importing the wrong one produces instances
+# NetBox's own User.groups field doesn't recognize (Django raises "Field 'id'
+# expected a number but got <Group: ...>" when you try to .set() them).
+from users.models import Group
 
 logger = logging.getLogger("netbox_oidc_group_sync.pipeline")
 
@@ -99,5 +105,4 @@ def sync_groups(
     user.is_superuser = user.username in superusers or bool(
         {group.name for group in group_list} & superuser_groups
     )
-    user.is_staff = user.is_superuser
     user.save()

@@ -3,7 +3,10 @@ SECRET_KEY = "test-secret-key"
 INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
+    "users",
 ]
+
+AUTH_USER_MODEL = "users.User"
 
 DATABASES = {
     "default": {

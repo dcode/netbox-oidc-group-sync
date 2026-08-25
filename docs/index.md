@@ -1,7 +1,7 @@
 # netbox-oidc-group-sync
 
 A [python-social-auth](https://github.com/python-social-auth/social-core) pipeline step that syncs NetBox
-Django groups and `is_superuser`/`is_staff` status from an OIDC `groups` claim.
+Django groups and `is_superuser` status from an OIDC `groups` claim.
 
 ## The gap
 
@@ -33,3 +33,12 @@ configuration surface, no fork of NetBox itself.
 
 See [Installation](installation.md) to get it running, and [Configuration](configuration.md) for the settings
 it reads.
+
+## A NetBox-specific gotcha
+
+NetBox 4.x doesn't use Django's stock `django.contrib.auth.models.Group` -- it defines its own
+`users.models.Group`, a completely separate model/table, and `User.groups` points there instead.
+`sync_groups` imports from `users.models`, not `django.contrib.auth.models`; getting this wrong produces a
+`TypeError: Field 'id' expected a number but got <Group: ...>` at login time, since Django's M2M machinery
+can't resolve a pk from an instance of the wrong model. Also unlike Django's stock `auth.Group`-based
+`AbstractUser`, NetBox's `User` model has no `is_staff` field at all -- only `is_superuser`.
